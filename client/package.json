@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 7070",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --port 7070",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
@@ -24,6 +24,10 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "@tiptap/core": "^2.1.12",
+    "@tiptap/extension-underline": "^2.1.12",
+    "@tiptap/pm": "^2.1.12",
+    "@tiptap/starter-kit": "^2.1.12",
     "firebase": "^10.5.0",
     "socket.io-client": "^4.7.2",
     "svelte-icons": "^2.1.0"

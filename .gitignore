@@ -3,3 +3,4 @@ node_modules/
 *.apps.googleusercontent.com.json
 dist/
 secrets/
+firebase-data/

@@ -21,7 +21,7 @@
 
   let unsubscribe: Unsubscribe;
 
-  onMount(() => {
+  onMount(async () => {
     unsubscribe = onAuthStateChanged(auth, async (user) => {
       currentUser.set(user);
       userLoading.set(false);
@@ -45,6 +45,7 @@
       quizStatus.set(QUIZ_STATUS.LOADING);
       console.log("Disconnected");
     });
+
   });
 
   $: {
@@ -96,7 +97,12 @@
     </AuthGuard>
   </Route>
   <Route path="/admin">
-    <AdminPanel />
+    <AuthGuard
+    loading={$userLoading}
+    access={!!$currentUser}
+    >
+      <AdminPanel />
+    </AuthGuard>
   </Route>
 </Router>
 <ToastContainer let:data placement="top-right">

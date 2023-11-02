@@ -6,16 +6,32 @@ import dotenv from "dotenv";
 import { EV_NAMES } from "./config/socket";
 import { broadcast } from "./controllers/broadcast";
 import { quizController } from "./controllers/quizcontroller";
+import adminRoute from "./routes/admin";
+import { connect } from "mongoose";
+import questionRoute from "./routes/question";
+
 
 dotenv.config();
 const app = express();
-app.use(cors);
+app.use(cors({
+  origin: [process.env.CLIENT_URL as string],
+  methods: '*',
+  credentials: true,
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
 
+// Connect to mongodb
+connect(process.env.MONGODB_URL as string, { dbName: process.env.DBNAME })
+.then((_) => console.log("Connected to database"))
+.catch((error) => { console.log("connection failed! ", error) });
+
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL as string],
   },
 });
 
@@ -26,8 +42,11 @@ io.on(EV_NAMES.CONNECTION, (s: Socket) => {
   s.on(EV_NAMES.QUIZ, async (data) => quizController(s, data));
 });
 
-const port = process.env.PORT || 7071;
+app.use("/api/v1/admin", adminRoute);
+app.use("/api/v1/question", questionRoute);
 
-server.listen(port, () =>
-  console.log(`Server started running at PORT ${port}...`)
+const socketPort = process.env.SOCKET_PORT || 7071;
+
+server.listen(socketPort, () =>
+console.log(`Socket Server started running at PORT ${socketPort}...`)
 );

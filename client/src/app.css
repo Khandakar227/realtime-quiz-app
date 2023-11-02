@@ -1,14 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.cdnfonts.com/css/seven-segment");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .question-title h1, .editor h1 {
+    @apply text-3xl font-bold py-1;
+  }
+  .question-title h2, .editor h2 {
+    @apply text-2xl font-bold py-1;
+  }
+  .question-title h3, .editor h3 {
+    @apply text-xl font-bold py-1;
+  }
+  .question-title h4, .editor h4 {
+    @apply text-lg font-bold;
+  }
+  .question-title h5, .editor h5 {
+    @apply text-base font-bold;
+  }
+  .question-title h6, .editor h6 {
+    @apply text-sm font-bold;
+  }
+  .question-title ul, .editor ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+  .question-title ol, .editor ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+  .question-title blockquote, .editor blockquote {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+  }
+  .question-title pre, .editor pre {
+    background-color: #0d0d0d;
+    color: white;
+    border-radius: 5px;
+    padding: 8px;
+  }
+}
+
 body {
-    @apply bg-slate-900 text-white font-poppins;
+  @apply bg-slate-900 text-white font-poppins;
 }
 
 .min-h-rest {
-    min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
 }
+.editor > div[contenteditable="true"] {
+    min-height: 10rem;
+    outline: none;
+    padding: 0.5rem;
+  }

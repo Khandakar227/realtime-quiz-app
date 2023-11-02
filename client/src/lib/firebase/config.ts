@@ -1,12 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBT-QerQYKVyLcS1T2vzecONYx5VfBNPGc",
   authDomain: "quiz-app-2381c.firebaseapp.com",
+  databaseURL: "https://quiz-app-2381c-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "quiz-app-2381c",
   storageBucket: "quiz-app-2381c.appspot.com",
   messagingSenderId: "881547572757",
@@ -16,3 +18,4 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const rtdb = getDatabase(app);

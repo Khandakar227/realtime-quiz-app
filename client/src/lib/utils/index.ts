@@ -17,6 +17,7 @@ export type QUESTION = {
     title: string,
     duration: number | null,
     score: number | null,
+    publish: boolean,
     type: "multiple" | "single" | "",
     options: { [id:string]: OPTION }
 }

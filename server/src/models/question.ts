@@ -11,6 +11,7 @@ const schema =  new Schema({
     duration: { type: Number, required: true },
     score: { type: Number, required: true },
     type: { type: String, enum: ['single', 'multiple'], default: 'multiple', required: true },
+    publish: {type: Boolean, default: false, required: true},
     options: { type: Map, of: optionSchema },
     created_at: { type: Date, default: Date.now },
 });

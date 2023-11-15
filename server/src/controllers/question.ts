@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { QUESTION } from "../types";
+import { OPTION, QUESTION, UpdateProp } from "../types";
 import QuestionModel from "../models/question";
 
 export const addQuestion = async (req: Request, res: Response) => {
@@ -79,10 +79,25 @@ export const publishQuestion = async (req: Request, res: Response) => {
     }
 }
 
+
 export const updateQuestion = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { title, duration, score, type, options } = req.body;        
+        const { title, duration, score, type, options } = req.body;
+        
+        let updates:UpdateProp = {};
+        if(title) updates.title = title;
+        if(duration) updates.duration = duration;
+        if(score) updates.score = score;
+        if(type) updates.type = type;
+        if(options.length) updates.options = options;
+
+        const question = await QuestionModel.findByIdAndUpdate(id, {
+            $set: updates
+        }, { new: true });
+        
+        res.status(200).json({ error: false, question });
+
     } catch (error) {
         const err = error as Error;
         console.log(err.message);

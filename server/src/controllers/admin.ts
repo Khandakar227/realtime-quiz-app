@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import AdminModel from "../models/admin";
+import QuizDataModel from "../models/quizdata";
 
 export const getAdmin = async (req: Request, res: Response) => {
   try {
@@ -24,8 +25,8 @@ export const addAdmin = async (req: Request, res: Response) => {
         .status(401)
         .json({ error: true, message: "Admin with given email already exist" });
     else {
-        const _admin = await AdminModel.create({ email, name });
-        res.status(200).json({error: false, admin: _admin})
+      const _admin = await AdminModel.create({ email, name });
+      res.status(200).json({ error: false, admin: _admin });
     }
   } catch (error) {
     const err = error as Error;

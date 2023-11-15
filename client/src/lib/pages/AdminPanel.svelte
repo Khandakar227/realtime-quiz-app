@@ -30,6 +30,7 @@
       const formData = new FormData(e.target as HTMLFormElement);
       const data = Object.fromEntries(formData);
       const timestamp = (new Date(data.start_datetime as string)).getTime();
+      console.log(timestamp)
       // await setQuizDatetime(timestamp);
     } catch (error) {
       console.log(error);

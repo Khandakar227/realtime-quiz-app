@@ -13,7 +13,7 @@ export const quizController = async (s: Socket, data: any) => {
     s.data = payload;
   }
 
-  if (s.data.uid && getQuizStatus().status == QUIZ_STATUS.STARTED) {
+  if (s.data.uid && (await getQuizStatus()).status == QUIZ_STATUS.STARTED) {
     // send quiz data
     interval = setInterval(() => {
       s.emit(EV_NAMES.QUIZ, { ...getCountdown() });

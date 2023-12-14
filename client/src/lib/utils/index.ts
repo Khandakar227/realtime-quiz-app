@@ -22,6 +22,10 @@ export type QUESTION = {
     options: { [id:string]: OPTION }
 }
 
+export type QUIZ_INFO = {
+    quiz_time?:number
+}
+
 export const getAdmins = async () => {
     const res = await fetch(`${SERVER_URL}/api/v1/admin`);
     const data = await res.json();
@@ -31,8 +35,31 @@ export const getAdmins = async () => {
     return admins;
 }
 
-export const setQuizDatetime = async () => {
-    
+export const setQuizDatetime = async (data:QUIZ_INFO, token:string) => {
+    const res = await fetch(`${SERVER_URL}/api/v1/quiz-info`, {
+        method: "POST",
+        credentials: 'include',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    });
+    const _data = await res.json();
+    if(_data.error) throw new Error(_data.message);
+}
+
+export const getQuizInfo = async () => {
+    const res = await fetch(`${SERVER_URL}/api/v1/quiz-info`, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const _data = await res.json();
+    if(_data.error) throw new Error(_data.message);
+    return _data.data;
 }
 
 export const addNewQuestion = async (data:QUESTION, token:string) => {

@@ -9,7 +9,8 @@ import { quizController } from "./controllers/quizcontroller";
 import adminRoute from "./routes/admin";
 import { connect } from "mongoose";
 import questionRoute from "./routes/question";
-
+import quizInfoRoute from "./routes/quizInfo";
+import { QuizTime } from "./lib";
 
 dotenv.config();
 const app = express();
@@ -25,7 +26,10 @@ const server = http.createServer(app);
 
 // Connect to mongodb
 connect(process.env.MONGODB_URL as string, { dbName: process.env.DBNAME })
-.then((_) => console.log("Connected to database"))
+.then(async (_) => {
+  console.log("Connected to database");
+  await QuizTime.update();
+})
 .catch((error) => { console.log("connection failed! ", error) });
 
 
@@ -44,6 +48,7 @@ io.on(EV_NAMES.CONNECTION, (s: Socket) => {
 
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/question", questionRoute);
+app.use("/api/v1/quiz-info", quizInfoRoute);
 
 const socketPort = process.env.SOCKET_PORT || 7071;
 

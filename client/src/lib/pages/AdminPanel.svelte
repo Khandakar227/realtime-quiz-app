@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getAdmins, getQuestions, type QUESTION } from "../utils";
+  import { getAdmins, getQuestions, setQuizDatetime, type QUESTION, type QUIZ_INFO, getQuizInfo } from "../utils";
   import { currentUser } from '../stores/user';
   import DotLoader from "../components/DotLoader.svelte";
   import { navigate } from "svelte-routing";
@@ -13,11 +13,18 @@
     questions: QUESTION [] = [],
     mountloading = true;
 
+  let quizInfo = { quiz_time: '' };
+  
   onMount(async () => {
     try {
       adminEmails = await getAdmins();
       console.log(adminEmails)
       if(!adminEmails.includes($currentUser?.email as string)) navigate("/", { replace: true });
+      const quizData = await getQuizInfo();
+      console.log(quizData);
+
+      if(quizData && quizData.quiz_time) quizInfo.quiz_time = (new Date(quizData.quiz_time)).toISOString().slice(0, 16);
+
     } catch (e) {
       console.log(e);
     } finally {
@@ -27,11 +34,15 @@
 
   async function saveQuizDateTime(e: Event) {
     try {
+      const token = await $currentUser?.getIdToken();
       const formData = new FormData(e.target as HTMLFormElement);
       const data = Object.fromEntries(formData);
       const timestamp = (new Date(data.start_datetime as string)).getTime();
-      console.log(timestamp)
-      // await setQuizDatetime(timestamp);
+      
+      await setQuizDatetime({ quiz_time: timestamp }, token as string );
+      await setQuizDatetime({ quiz_time: timestamp }, token as string );
+      
+      toasts.success("Updated")
     } catch (error) {
       console.log(error);
       toasts.error((error as Error).message);
@@ -84,6 +95,7 @@
           <input
             class="w-full outline-none shadow shadow-black p-2 rounded-md text-black max-w-xs"
             type="datetime-local"
+            value={quizInfo.quiz_time}
             name="start_datetime"
             id="start_datetime"
           />

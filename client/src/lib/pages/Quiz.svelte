@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
   import { EV_NAMES, QUIZ_STATUS } from "../configs/socket";
   import { quizStatus, socket } from "../stores/socket";
-  import { quizData } from '../stores/quiz'
+  import { quizData } from '../stores/quiz';
+  
+  console.log($quizData)
 </script>
 
 {#if $quizStatus == QUIZ_STATUS.LOADING}

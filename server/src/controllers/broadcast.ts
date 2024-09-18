@@ -1,18 +1,10 @@
 import { Server } from "socket.io";
-import { getQuizStatus } from "../lib";
-import { EV_NAMES } from "../config/socket";
+import { QuizDetails } from "../lib/quizDetails";
+import { QUIZ_STATUS } from "../config/socket";
 
-export const broadcast = (io: Server) => {
-    let interval: NodeJS.Timeout;
-    // Broadcast Quiz info to all visitors
-    interval = setInterval(async () => {
-      const time = await getQuizStatus();
-      io.emit(EV_NAMES.BROADCAST, time);
-      if (
-        time.countdown.hours <= 0 &&
-        time.countdown.minutes <= 0 &&
-        time.countdown.seconds <= 0
-      )
-        clearInterval(interval);
-    }, 1000);
+export const broadcast = async (io: Server) => {
+  QuizDetails.status = await QuizDetails.getStatus();
+  if (QuizDetails.status == QUIZ_STATUS.NOT_STARTED) QuizDetails.handleNotStarted(io);
+  else if (QuizDetails.status == QUIZ_STATUS.STARTED) QuizDetails.handleStarted(io);
+  else if (QuizDetails.status == QUIZ_STATUS.ENDED) QuizDetails.handleEnded(io);
 }

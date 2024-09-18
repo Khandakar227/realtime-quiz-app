@@ -37,7 +37,7 @@
     });
 
     $socket.on(EV_NAMES.QUIZ, (data) => {
-      console.log(data);
+      console.log(EV_NAMES.QUIZ,": ", data);
       quizData.set(data);
     });
 
@@ -77,30 +77,18 @@
     </AuthGuard>
   </Route>
   <Route path="/profile">
-    <AuthGuard
-      loading={$userLoading}
-      access={!!$currentUser}
-      to="/login"
-      toastErrorMsg="Please login first"
+    <AuthGuard loading={$userLoading} access={!!$currentUser} to="/login" toastErrorMsg="Please login first"
     >
       <Profile />
     </AuthGuard>
   </Route>
   <Route path="/quiz">
-    <AuthGuard
-      loading={$userLoading}
-      access={!!$currentUser}
-      to="/login"
-      toastErrorMsg="Please login first"
-    >
+    <AuthGuard loading={$userLoading} access={!!$currentUser} to="/login" toastErrorMsg="Please login first" >
       <Quiz />
     </AuthGuard>
   </Route>
   <Route path="/admin">
-    <AuthGuard
-    loading={$userLoading}
-    access={!!$currentUser}
-    >
+    <AuthGuard loading={$userLoading} access={!!$currentUser} to="/login">
       <AdminPanel />
     </AuthGuard>
   </Route>

@@ -1,1 +1,2 @@
-getTotalTimeOfQuiz and quizTime can be handled more efficiently using mongo changeStream. Listen for changes and update only when changed.
+getTotalTimeOfQuiz and quizTime can be handled more efficiently using mongo changeStream. Listen for changes and update only when changed. (Only possible in replicaSet)
+Datetime picker in admin side - local one used, need to switch it to iso one. Or calculate the difference from current time and send that to server.

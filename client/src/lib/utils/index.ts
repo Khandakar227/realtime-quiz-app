@@ -23,7 +23,8 @@ export type QUESTION = {
 }
 
 export type QUIZ_INFO = {
-    quiz_time?:number
+    quiz_start_time?:Date | string | number,
+    duration: number | string,
 }
 
 export const getAdmins = async () => {

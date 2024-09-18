@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { OPTION, QUESTION, UpdateProp } from "../types";
 import QuestionModel from "../models/question";
+import { notifyDeleteQuestion, notifyInsertQuestion } from "../lib/events";
 
 export const addQuestion = async (req: Request, res: Response) => {
     try {
@@ -14,6 +15,7 @@ export const addQuestion = async (req: Request, res: Response) => {
             options
         });
         res.status(200).json({ error: false, message: "Added new question", question });
+        notifyInsertQuestion();
     } catch (error) {
         const err = error as Error;
         console.log(err.message);
@@ -30,7 +32,7 @@ export const addQuestion = async (req: Request, res: Response) => {
 export const getQuestions = async (req: Request, res: Response) => {
     try {
         const questions = await QuestionModel.find();
-        res.status(200).json({error: false, questions});        
+        res.status(200).json({error: false, questions});
     } catch (error) {
         const err = error as Error;
         console.log(err.message);
@@ -48,6 +50,7 @@ export const deleteQuestion = async (req: Request, res: Response) => {
         const { id } = req.params;
         await QuestionModel.findByIdAndDelete(id);
         res.status(200).json({error: false, message: "Question deleted Successfully"});        
+        notifyDeleteQuestion();
     } catch (error) {
         const err = error as Error;
         console.log(err.message);

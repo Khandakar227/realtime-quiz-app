@@ -30,7 +30,13 @@
           <p class="font-medium text-xl md:text-3xl text-center">Quiz will start in:</p>
           <Countdown countdown={countdown} />
         {:else if $quizStatus == QUIZ_STATUS.STARTED}
+        <p class="font-medium text-xl md:text-3xl text-center">Quiz has started:</p>
+        <Countdown countdown={countdown} />
+        <div class="text-center py-5">
           <Link to="/quiz" class="mx-auto p-4 rounded bg-red-600 text-white font-medium">Go to Quiz</Link>
+        </div>
+        {:else if $quizStatus == QUIZ_STATUS.ENDED}
+          <p class="font-medium text-xl md:text-3xl text-center">Quiz is over</p>
         {/if}
       </div>
     {/if}

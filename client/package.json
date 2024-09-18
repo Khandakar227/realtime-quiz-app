@@ -28,6 +28,7 @@
     "@tiptap/extension-underline": "^2.1.12",
     "@tiptap/pm": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
+    "client": "file:",
     "firebase": "^10.5.0",
     "socket.io-client": "^4.7.2",
     "svelte-icons": "^2.1.0"

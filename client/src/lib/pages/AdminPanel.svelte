@@ -13,17 +13,20 @@
     questions: QUESTION [] = [],
     mountloading = true;
 
-  let quizInfo = { quiz_time: '' };
+  let quizInfo = { quiz_start_time: '', duration: 30*60, };
   
   onMount(async () => {
     try {
       adminEmails = await getAdmins();
       console.log(adminEmails)
-      if(!adminEmails.includes($currentUser?.email as string)) navigate("/", { replace: true });
+      if(!adminEmails.includes($currentUser?.email as string)) {
+        navigate("/", { replace: true });
+        toasts.error("You are not authorized to view this page");
+      }
       const quizData = await getQuizInfo();
       console.log(quizData);
 
-      if(quizData && quizData.quiz_time) quizInfo.quiz_time = (new Date(quizData.quiz_time)).toISOString().slice(0, 16);
+      if(quizData && quizData.quiz_start_time) quizInfo.quiz_start_time = (new Date(quizData.quiz_start_time)).toISOString().slice(0, 16);
 
     } catch (e) {
       console.log(e);
@@ -36,11 +39,9 @@
     try {
       const token = await $currentUser?.getIdToken();
       const formData = new FormData(e.target as HTMLFormElement);
-      const data = Object.fromEntries(formData);
-      const timestamp = (new Date(data.start_datetime as string)).getTime();
-      
-      await setQuizDatetime({ quiz_time: timestamp }, token as string );
-      await setQuizDatetime({ quiz_time: timestamp }, token as string );
+      const data = Object.fromEntries(formData) as any;
+      await setQuizDatetime({ quiz_start_time: data.start_datetime as string, duration: data.duration as number }, token as string );
+      // await setQuizDatetime({ quiz_start_time: timestamp }, token as string );
       
       toasts.success("Updated")
     } catch (error) {
@@ -95,9 +96,18 @@
           <input
             class="w-full outline-none shadow shadow-black p-2 rounded-md text-black max-w-xs"
             type="datetime-local"
-            value={quizInfo.quiz_time}
+            value={quizInfo.quiz_start_time}
             name="start_datetime"
             id="start_datetime"
+          />
+          <label class="text-sm block pt-5" for="duration">Duration (in seconds):</label>
+          <input
+            class="w-full outline-none shadow shadow-black p-2 rounded-md text-black max-w-xs"
+            type="number"
+            min="0"
+            value={quizInfo.duration}
+            name="duration"
+            id="duration"
           />
           <button class="mt-4 px-4 py-2 bg-red-600 rounded-md"> Save </button>
         </form>

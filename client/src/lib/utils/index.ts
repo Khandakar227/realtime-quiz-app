@@ -59,6 +59,7 @@ export const getQuizInfo = async () => {
         },
     })
     const _data = await res.json();
+    console.log(_data);
     if(_data.error) throw new Error(_data.message);
     return _data.data;
 }

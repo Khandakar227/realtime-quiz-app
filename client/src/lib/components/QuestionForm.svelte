@@ -27,7 +27,7 @@
     title: "",
     duration: null,
     score: null,
-    publish: false,
+    publish: true,
     type: "",
   };
 

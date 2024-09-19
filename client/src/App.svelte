@@ -15,7 +15,6 @@
   import { EV_NAMES, QUIZ_STATUS } from "./lib/configs/socket";
   import { quizStatus, socket } from "./lib/stores/socket";
   import AdminPanel from "./lib/pages/AdminPanel.svelte";
-  import { quizData } from "./lib/stores/quiz";
 
   export let url = "";
 
@@ -34,11 +33,6 @@
     $socket.on(EV_NAMES.BROADCAST, (data) => {
       quizStatus.set(data.status);
       console.log(data);
-    });
-
-    $socket.on(EV_NAMES.QUIZ, (data) => {
-      console.log(EV_NAMES.QUIZ,": ", data);
-      quizData.set(data);
     });
 
     $socket.on("disconnect", () => {

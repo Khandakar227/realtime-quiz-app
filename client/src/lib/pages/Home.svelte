@@ -2,8 +2,8 @@
     import { quizStatus, socket } from '../stores/socket'
     import { EV_NAMES, QUIZ_STATUS } from "../configs/socket";
     import Countdown from "../components/Countdown.svelte";
-  import { onMount } from 'svelte';
-  import { Link } from 'svelte-routing';
+    import { onDestroy, onMount } from 'svelte';
+    import { Link } from 'svelte-routing';
   
     let countdown = {
       hours: 0,
@@ -19,6 +19,9 @@
       })
     })
     
+    onDestroy(() => {
+      $socket.off(EV_NAMES.BROADCAST);
+    });
   </script>
   
   <main class="min-h-rest grid justify-center items-center">

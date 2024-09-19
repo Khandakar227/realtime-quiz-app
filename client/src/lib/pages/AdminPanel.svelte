@@ -16,6 +16,7 @@
   let quizInfo = { quiz_start_time: '', duration: 30*60, };
   
   onMount(async () => {
+    document.title = "Admin Panel";
     try {
       adminEmails = await getAdmins();
       console.log(adminEmails)
@@ -27,7 +28,7 @@
       console.log(quizData);
 
       if(quizData && quizData.quiz_start_time) quizInfo.quiz_start_time = (new Date(quizData.quiz_start_time)).toISOString().slice(0, 16);
-
+      if(quizData && quizData.duration) quizInfo.duration = quizData.duration;
     } catch (e) {
       console.log(e);
     } finally {

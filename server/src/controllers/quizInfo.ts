@@ -6,13 +6,14 @@ import { notifyQuizDatetime } from "../lib/events";
 export const quizInfo = async (req: Request, res: Response) => {
   try {
     const { quiz_start_time, duration } = req.body;
+    console.log(duration)
     const quizTime = new Date(quiz_start_time);
     const quizData = await QuizDataModel.findOneAndUpdate(
       {qid: QUIZ_INFO_ID},
       { $set: { quiz_start_time, updated_at: Date.now(), duration } },
       { upsert: true }
     );
-    if(quizData && quizData?.quiz_start_time) notifyQuizDatetime(quizTime);
+    if(quizData && quizData?.quiz_start_time) notifyQuizDatetime(quizTime, duration);
     
     res.status(200).json({ error: false, data: quizData });
   } catch (error) {

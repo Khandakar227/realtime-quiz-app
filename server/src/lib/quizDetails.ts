@@ -31,6 +31,7 @@ export class QuizDetails {
 
         this._datetime = t || 0;
     }
+
     public static async getStatus() {
         const currentTime = new Date();
         if(!this._datetime) await this.setStartDatetime();
@@ -63,7 +64,8 @@ export class QuizDetails {
     
     static sendOngoingCountdown(io: Server) {
         const currentTime = new Date();
-        const startTime = (this._datetime || 0) + ((this.duration || 0) + 2) * 1000;
+        const startTime = (this._datetime || 0) + ((this.duration || 0) + 2) * 100;
+        // console.log(`startTime=${startTime}, currentTime=${currentTime.getTime()}, duration=${this.duration}, datetime=${this._datetime}`);
         const miliseconds = Math.max(startTime - currentTime.getTime(), 0);
         const seconds = Math.trunc(miliseconds / 1000) % 60;
         const minutes = Math.trunc(miliseconds / 1000 / 60) % 60;

@@ -2,8 +2,9 @@
   import { EV_NAMES, QUIZ_STATUS } from "../configs/socket";
   import { quizStatus, socket } from "../stores/socket";
   import { quizData } from '../stores/quiz';
+  import { currentUser } from '../stores/user';
   import { onDestroy, onMount } from "svelte";
-  import { getQuizInfo } from "../utils";
+  import { createQuizSession, getQuizInfo } from "../utils";
   import Countdown from "../components/Countdown.svelte";
   
   console.log($quizData)
@@ -21,6 +22,11 @@
     $socket.on(EV_NAMES.BROADCAST, (data)=> {
       quizStatus.set(data.status);
       countdown = data.countdown;
+      if (data.status === QUIZ_STATUS.STARTED) {
+      // create a quiz session for this user if does not already exist. storing random order of question IDs (unanswered questions).
+      // fetch all of the questions and store them in the store.
+        createQuizSession($currentUser?.email as string);
+      }
     })
   })
 

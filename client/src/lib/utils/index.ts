@@ -91,3 +91,15 @@ export const getQuestions =async (token:string) => {
     if(_data.error) throw new Error(_data.message);
     return _data.questions;
 }
+
+export const createQuizSession = async (email:string) => {
+    const res = await fetch(`${SERVER_URL}/api/v1/quiz-session`, {
+        method: "GET",
+        credentials: 'include',
+        body: JSON.stringify({ email }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
